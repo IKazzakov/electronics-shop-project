@@ -3,6 +3,7 @@
 from src import item
 import pytest
 
+
 @pytest.fixture()
 def class_instance():
     """Создаем пример экземпляра класса"""
@@ -19,3 +20,29 @@ def test_apply_discount(class_instance):
     class_instance.pay_rate = 0.9
     class_instance.apply_discount()
     assert class_instance.price == 13500
+
+
+def test_name_getter(class_instance):
+    """Проверка геттера для name"""
+    assert class_instance.name == 'Планшет'
+
+
+def test_name_setter(class_instance):
+    """Проверка сеттера для name"""
+    class_instance.name = 'Принтер'
+    assert class_instance.name == 'Принтер'
+    class_instance.name = 'Преобразователь'
+    assert class_instance.name == 'Преобразов'
+
+
+def test_instantiate_from_csv():
+    """класс-метод инициализирует экземпляры из файла csv"""
+    item.Item.instantiate_from_csv()
+    assert len(item.Item.all) == 5
+
+
+def test_string_to_number():
+    """статический метод возвращает число из числа-строки"""
+    assert item.Item.string_to_number('5') == 5
+    assert item.Item.string_to_number('5.0') == 5
+    assert item.Item.string_to_number('5.5') == 5
