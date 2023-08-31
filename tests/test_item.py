@@ -46,3 +46,13 @@ def test_string_to_number():
     assert item.Item.string_to_number('5') == 5
     assert item.Item.string_to_number('5.0') == 5
     assert item.Item.string_to_number('5.5') == 5
+
+
+def test_repr(class_instance):
+    """тест для repr"""
+    assert repr(class_instance) == "Item('Планшет', 15000, 5)"
+
+
+def test_str(class_instance):
+    """тест для str"""
+    assert str(class_instance) == 'Планшет'

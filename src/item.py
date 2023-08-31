@@ -23,6 +23,14 @@ class Item:
         self.quantity = quantity
         self.all.append(self)
 
+    def __repr__(self):
+        """отображение информации об объекте класса в режиме отладки """
+        return f"{self.__class__.__name__}('{self.name}', {self.price}, {self.quantity})"
+
+    def __str__(self):
+        """отображение информации об объекте класса для пользователей"""
+        return self.name
+
     @property
     def name(self):
         """Геттер для атрибута name"""
