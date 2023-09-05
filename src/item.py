@@ -31,6 +31,16 @@ class Item:
         """отображение информации об объекте класса для пользователей"""
         return self.name
 
+    def __add__(self, other):
+        """
+        Сложение двух экземпляров класса по значению количество товаров.
+        Проверка принадлежности экземпляров к классу Item ил дочернему
+        """
+        if not isinstance(other, Item):
+            raise ValueError("Складывать можно только объекты класса Item и дочерних от него")
+        else:
+            return self.quantity + other.quantity
+
     @property
     def name(self):
         """Геттер для атрибута name"""
