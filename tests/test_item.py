@@ -1,6 +1,6 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
 
-from src import item
+from src import item, phone
 import pytest
 
 
@@ -56,3 +56,13 @@ def test_repr(class_instance):
 def test_str(class_instance):
     """тест для str"""
     assert str(class_instance) == 'Планшет'
+
+def test_add(class_instance):
+    """тест для проверки сложения экземпляров класса по количеству товара"""
+    phone_instnc = phone.Phone("iPhone 14", 120_000, 5, 2)
+    assert class_instance + phone_instnc == 10
+    with pytest.raises(ValueError) as excpt:
+        class_instance + 5
+    assert str(excpt.value) == "Складывать можно только объекты класса Item и дочерних от него"
+
+
