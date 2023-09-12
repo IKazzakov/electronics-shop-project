@@ -2,6 +2,9 @@
 
 from src import item, phone
 import pytest
+import os
+import csv
+from src.csv_errors import InstantiateCSVError
 
 
 @pytest.fixture()
@@ -41,8 +44,24 @@ def test_instantiate_from_csv():
     assert len(item.Item.all) == 5
 
 
+def test_instantiate_from_csv_path_errors():
+    """Проверка ошибки несуществующего файла csv"""
+    path_to_test_csv = os.path.join('1test_csv_file.csv')
+    item.Item.CSV_PATH = path_to_test_csv
+    with pytest.raises(FileNotFoundError):
+        item.Item.instantiate_from_csv()
+
+
+def test_instantiate_from_csv_value_errors():
+    """Проверка ошибки данных в тестовом файле csv"""
+    path_to_test_csv = os.path.join('test_csv_file.csv')
+    item.Item.CSV_PATH = path_to_test_csv
+    with pytest.raises(InstantiateCSVError):
+        item.Item.instantiate_from_csv()
+
+
 def test_string_to_number():
-    """статический метод возвращает число из числа-строки"""
+    """Статический метод возвращает число из числа-строки"""
     assert item.Item.string_to_number('5') == 5
     assert item.Item.string_to_number('5.0') == 5
     assert item.Item.string_to_number('5.5') == 5
@@ -57,6 +76,7 @@ def test_str(class_instance):
     """тест для str"""
     assert str(class_instance) == 'Планшет'
 
+
 def test_add(class_instance):
     """тест для проверки сложения экземпляров класса по количеству товара"""
     phone_instnc = phone.Phone("iPhone 14", 120_000, 5, 2)
@@ -64,5 +84,3 @@ def test_add(class_instance):
     with pytest.raises(ValueError) as excpt:
         class_instance + 5
     assert str(excpt.value) == "Складывать можно только объекты класса Item и дочерних от него"
-
-
